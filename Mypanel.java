@@ -14,12 +14,12 @@ public class Mypanel extends JPanel {
         Graphics2D path = (Graphics2D) g;
         path.setStroke(new BasicStroke(1));
         path.setPaint(Color.RED);
-        for (int i = 0; i < 28; i++) {
-            path.drawLine(i * 20, 1, i * 20, 720);
-        }
-        for (int i = 0; i < 36; i++) {
-            path.drawLine(1, i * 20, 560, i * 20);
-        }
+        // for (int i = 0; i < 28; i++) {
+        //     path.drawLine(i * 20, 1, i * 20, 720);
+        // }
+        // for (int i = 0; i < 36; i++) {
+        //     path.drawLine(1, i * 20, 560, i * 20);
+        // }
         g2d.setPaint(Color.BLUE);
         g2d.setStroke(new BasicStroke(2));
         // ====================outer
