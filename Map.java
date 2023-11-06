@@ -15,9 +15,9 @@ public class Map extends JPanel {
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1  },
+            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
+            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1  },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
@@ -162,40 +162,32 @@ public class Map extends JPanel {
         
 
     }
-    public boolean mapUp(int[] Pos,int[] Pos2){
+    public boolean mapUp(int[] Pos){
         if(Map[Pos[0]-1][Pos[1]]==2){
-            Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
             Pos[0] = Pos[0]-1;
             return true;
         }
         return false;
     }
 
-    public boolean mapDown(int[] Pos,int[] Pos2){
+    public boolean mapDown(int[] Pos){
         if(Map[Pos[0]+1][Pos[1]]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
             Pos[0] = Pos[0]+1;
             return true;
         }
         return false;
     }
 
-    public boolean mapLeft(int[] Pos,int[] Pos2){
+    public boolean mapLeft(int[] Pos){
         if(Map[Pos[0]][Pos[1]-1]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
             Pos[1] = Pos[1]-1;
             return true;
         }
         return false;
     }
 
-    public boolean mapRight(int[] Pos,int[] Pos2){
+    public boolean mapRight(int[] Pos){
         if(Map[Pos[0]][Pos[1]+1]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
             Pos[1] = Pos[1]+1;
             return true;
         }

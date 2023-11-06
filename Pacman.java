@@ -6,15 +6,17 @@ import javax.swing.JLabel;
 
 public class Pacman extends JLabel {
     public int[] startPos = { 23, 13 };
-    public int[] previousPos = { 23, 13 };
     public int[] currentPos = { 23, 13 };
     private String direction = "left";
+    public boolean isMoving = false;
     Icon imageIcon;
     public ArrayList<int[]> eatenfoods = new ArrayList<int[]>();
 
     Pacman() {
         changeDirection(direction);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
+        setHorizontalAlignment(JLabel.CENTER);
+        setVerticalAlignment(JLabel.CENTER);
     }
 
     public void move(String direction) {
@@ -23,7 +25,6 @@ public class Pacman extends JLabel {
             this.direction = direction;
         }
         setLocation(currentPos[1] * 20 - 9, (60 + currentPos[0] * 20) - 9);
-       
     }
 
     public void eat(Food food) {
