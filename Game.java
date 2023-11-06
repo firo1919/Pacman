@@ -1,143 +1,112 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class Game extends JFrame implements KeyListener{
-    Mypanel panel;
+    Map map;
     Pacman pacman;
-    int[][] Map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1},
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1  },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 1 },
-            { 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1  },
-            { 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1 },
-            { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    };
+   ArrayList<Food> foods;
     Game() {
+        foods = new ArrayList<Food>();
         pacman = new Pacman();
-        panel = new Mypanel();
-        panel.setBackground(Color.BLACK);
+       map = new Map();
+       map.setBackground(Color.BLACK);
         setLayout(null);
         setTitle("Pacman");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(560, 720);
         setLocationRelativeTo(null);
-        add(panel);
-        panel.add(pacman);
+        add(map);
+       map.add(pacman);
         for(int i=0;i<31;i++){
             for(int j=0;j<28;j++){
-                if(Map[i][j]==2&& !(i==23&&(j==13||j==14))){
+                if(map.Map[i][j]==2&& !(i==23&&(j==13||j==14))){
                     int[] Pos = {i,j};
-                   Food.foodPos.add(Pos);
+                   foods.add(new Food(Pos));
                 }
             }
         }
-        for (int[] position : Food.foodPos) {
-            panel.add(new Food(position[0],position[1],Color.ORANGE));
+        for (Food food : foods) {
+            if(!pacman.eatenfoods.contains(food.getPosition()))map.add(food);
         }
         addKeyListener(this);
         setVisible(true);
     }
 
-    public boolean mapUp(int[] Pos,int[] Pos2){
-        if(Map[Pos[0]-1][Pos[1]]==2){
-            Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
-            Pos[0] = Pos[0]-1;
-            return true;
+    public void win(){
+        if(pacman.eatenfoods.size()==10){
+           int selectedOption =  JOptionPane.showOptionDialog(null, "Sorry u lost!!!, Do u want to Continue", null,JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
+           if(selectedOption==1){
+            dispose();
         }
-        return false;
+        else{
+          pacman.currentPos = pacman.startPos;
+          pacman.move("left");
+        }
+    }
     }
 
-    public boolean mapDown(int[] Pos,int[] Pos2){
-        if(Map[Pos[0]+1][Pos[1]]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
-            Pos[0] = Pos[0]+1;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean mapLeft(int[] Pos,int[] Pos2){
-        if(Map[Pos[0]][Pos[1]-1]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
-            Pos[1] = Pos[1]-1;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean mapRight(int[] Pos,int[] Pos2){
-        if(Map[Pos[0]][Pos[1]+1]==2){
-             Pos2[0] = Pos[0];
-            Pos2[1] = Pos[1];
-            Pos[1] = Pos[1]+1;
-            return true;
-        }
-        return false;
-    }
-
-    public static void main(String[] args) {
-        new Game();
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
        switch(e.getKeyCode()){
         case 38: 
-        if(mapUp(pacman.currentPos,pacman.previousPos)){
-            pacman.move();
-            pacman.eat();
+        if(map.mapUp(pacman.currentPos,pacman.previousPos)){
+            pacman.move("up");
+            for (Food food: foods) {
+                if((food.getPosition()[0]==pacman.currentPos[0])&&(food.getPosition()[1]==pacman.currentPos[1])&&(!pacman.eatenfoods.contains(food.getPosition()))){
+                    pacman.eat(food);
+                    break;
+                }
+            }
         }
         break;
         case 40:
-        if(mapDown(pacman.currentPos,pacman.previousPos)){
-            pacman.move();
-             pacman.eat();
+        if(map.mapDown(pacman.currentPos,pacman.previousPos)){
+            pacman.move("down");
+           for (Food food: foods) {
+                if((food.getPosition()[0]==pacman.currentPos[0])&&(food.getPosition()[1]==pacman.currentPos[1])&&(!pacman.eatenfoods.contains(food.getPosition()))){
+                    pacman.eat(food);
+                    break;
+                }
+            }
         }
         break;
         case 37:
-        if(mapLeft(pacman.currentPos,pacman.previousPos)){
-            pacman.move();
-             pacman.eat();
+        if(map.mapLeft(pacman.currentPos,pacman.previousPos)){
+            pacman.move("left");
+           for (Food food: foods) {
+                if((food.getPosition()[0]==pacman.currentPos[0])&&(food.getPosition()[1]==pacman.currentPos[1])&&(!pacman.eatenfoods.contains(food.getPosition()))){
+                    pacman.eat(food);
+                    break;
+                }
+            }
         }
         break;
         case 39:
-        if(mapRight(pacman.currentPos,pacman.previousPos)){
-        pacman.move();
+        if(map.mapRight(pacman.currentPos,pacman.previousPos)){
+        pacman.move("right");
+        for (Food food: foods) {
+                if((food.getPosition()[0]==pacman.currentPos[0])&&(food.getPosition()[1]==pacman.currentPos[1])&&(!pacman.eatenfoods.contains(food.getPosition()))){
+                    pacman.eat(food);
+                    break;
+                }
+            }
         }
         break;
        }
-       panel.repaint();
+       try {
+        Thread.sleep(2000);
+    } catch (InterruptedException E) {
+        // TODO Auto-generated catch block
+        E.printStackTrace();
+    }
+      map.repaint();
+       win();
     }
 
     @Override
@@ -149,4 +118,9 @@ public class Game extends JFrame implements KeyListener{
     public void keyTyped(KeyEvent e) {
         //System.out.println("Key Typed: " + e.getKeyChar());
     }
-}
+    public static void main(String[] args) {
+        Game game = new Game();
+        Ghosts ghost = new Ghosts(game.pacman);
+        Thread ghostchase = new Thread(ghost);
+        ghostchase.start();
+}}
