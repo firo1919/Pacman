@@ -162,32 +162,37 @@ public class Map extends JPanel {
         
 
     }
-    public boolean mapUp(int[] Pos){
+    public boolean mapUp(int[] Pos,int[] pos2){
         if(Map[Pos[0]-1][Pos[1]]==2){
+            pos2 = Pos.clone();
             Pos[0] = Pos[0]-1;
             return true;
         }
         return false;
     }
 
-    public boolean mapDown(int[] Pos){
+    public boolean mapDown(int[] Pos,int[] pos2){
         if(Map[Pos[0]+1][Pos[1]]==2){
+            pos2 = Pos.clone();
             Pos[0] = Pos[0]+1;
             return true;
         }
         return false;
     }
 
-    public boolean mapLeft(int[] Pos){
+    public boolean mapLeft(int[] Pos,int[] pos2){
         if(Map[Pos[0]][Pos[1]-1]==2){
+            pos2 = Pos.clone();
             Pos[1] = Pos[1]-1;
             return true;
         }
         return false;
     }
 
-    public boolean mapRight(int[] Pos){
+    public boolean mapRight(int[] Pos,int[] pos2){
         if(Map[Pos[0]][Pos[1]+1]==2){
+            pos2[0] = Pos[0];
+            pos2[1] = Pos[1];
             Pos[1] = Pos[1]+1;
             return true;
         }
