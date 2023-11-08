@@ -193,6 +193,7 @@ public class Map extends JPanel {
         if(Map[Pos[0]][Pos[1]+1]==2){
             pos2[0] = Pos[0];
             pos2[1] = Pos[1];
+            //System.out.println(pos2[1]);
             Pos[1] = Pos[1]+1;
             return true;
         }

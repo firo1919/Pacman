@@ -9,26 +9,18 @@ import javax.swing.*;
 public class Game extends JFrame implements KeyListener{
     static Map map;
     Pacman pacman;
-    Ghosts ghost,ghost2;
-    int[] blinky = {23,7};
-     int[] cindy = {1,3};
+    Blinky blinky;
+    Clyde clyde;
+    Inky inky;
+    Pinky pinky;
     static ArrayList<Food> foods;
     Game() {
         foods = new ArrayList<Food>();
         pacman = new Pacman();
-        
-        ghost = new Ghosts(pacman,this,blinky);
-        ghost2 = new Ghosts(pacman,this,cindy);
-        
-        Thread ghost1chase = new Thread(ghost);
-        ghost1chase.start();
-
-        Thread ghost2chase = new Thread(ghost2);
-        ghost2chase.start();
-
-        Thread pacm = new Thread(pacman);
-        pacm.start();
-
+        blinky = new Blinky(pacman);
+        clyde = new Clyde(pacman);
+        inky = new Inky(pacman);
+        pinky = new Pinky(pacman);
        map = new Map();
        map.setBackground(Color.BLACK);
         setLayout(null);
@@ -37,13 +29,15 @@ public class Game extends JFrame implements KeyListener{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(560, 720);
         setLocationRelativeTo(null);
-        add(ghost);
-        add(ghost2);
+        add(blinky);
+        add(clyde);
+        add(inky);
+        add(pinky);
         add(pacman);
         add(map);
         
         for(int i=0;i<31;i++){
-            for(int j=0;j<28;j++){
+            for(int j=0;j<27;j++){
                 if(map.Map[i][j]==2&& !(((i==23)&&(j==13||j==14))||((i==13||i==14||i==15)&&(j==11||j==12||j==13||j==14||j==15||j==16)))){
                     int[] Pos = {i,j};
                    foods.add(new Food(Pos));
@@ -55,6 +49,16 @@ public class Game extends JFrame implements KeyListener{
         }
         addKeyListener(this);
         setVisible(true);
+        Thread ghost1chase = new Thread(blinky);
+        ghost1chase.start();
+        Thread ghost2chase = new Thread(pinky);
+        ghost2chase.start();
+         Thread ghost3chase = new Thread(inky);
+        ghost3chase.start();
+         Thread ghost4chase = new Thread(clyde);
+        ghost4chase.start();
+        Thread pacm = new Thread(pacman);
+        pacm.start();
         
     }
 
@@ -75,6 +79,7 @@ public class Game extends JFrame implements KeyListener{
         pacman.setDirection("right");
         break;
        }
+       map.repaint();
     }
 
     @Override

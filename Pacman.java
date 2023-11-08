@@ -30,25 +30,25 @@ public class Pacman extends JLabel implements Runnable {
         switch (direction) {
             case "up":
                 if (map.mapUp(this.currentPos,this.previousPos)) {
-                    setLocation(currentPos[1] * 20 - 9, (60 + currentPos[0] * 20) - 9);
+                        setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "down":
                 if (map.mapDown(this.currentPos,this.previousPos)) {
-                    setLocation(currentPos[1] * 20 - 9, (60 + currentPos[0] * 20) - 9);
+                    setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "left":
                 if (map.mapLeft(this.currentPos,this.previousPos)) {
-                    setLocation(currentPos[1] * 20 - 9, (60 + currentPos[0] * 20) - 9);
+                   setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "right":
                 if (map.mapRight(this.currentPos,this.previousPos)) {
-                    setLocation(currentPos[1] * 20 - 9, (60 + currentPos[0] * 20) - 9);
+                     setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
@@ -56,7 +56,7 @@ public class Pacman extends JLabel implements Runnable {
             default:
                 break;
         }
-        Thread.sleep(80);
+        Thread.sleep(120);
         move(this.direction);
     }
 
@@ -75,11 +75,11 @@ public class Pacman extends JLabel implements Runnable {
 
     public void changeDirection(String direction) {
         if (direction.equals("left")) {
-            imageIcon = new ImageIcon("Pacman.gif");
+            imageIcon = new ImageIcon("PacmanLeft.gif");
             setIcon(imageIcon);
 
         } else if (direction.equals("right")) {
-            imageIcon = new ImageIcon("PacmanRight.gif");
+            imageIcon = new ImageIcon("Pacman.gif");
             setIcon(imageIcon);
 
         } else if (direction.equals("up")) {
