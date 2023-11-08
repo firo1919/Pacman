@@ -51,12 +51,12 @@ public class Game extends JFrame implements KeyListener{
         setVisible(true);
         Thread ghost1chase = new Thread(blinky);
         ghost1chase.start();
-        Thread ghost2chase = new Thread(pinky);
-        ghost2chase.start();
-         Thread ghost3chase = new Thread(inky);
-        ghost3chase.start();
-         Thread ghost4chase = new Thread(clyde);
-        ghost4chase.start();
+        // Thread ghost2chase = new Thread(pinky);
+        // ghost2chase.start();
+        //  Thread ghost3chase = new Thread(inky);
+        // ghost3chase.start();
+        //  Thread ghost4chase = new Thread(clyde);
+        // ghost4chase.start();
         Thread pacm = new Thread(pacman);
         pacm.start();
         

@@ -56,7 +56,7 @@ public class Pacman extends JLabel implements Runnable {
             default:
                 break;
         }
-        Thread.sleep(120);
+        Thread.sleep(150);
         move(this.direction);
     }
 
