@@ -4,7 +4,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Pacman extends JLabel implements Runnable {
+public class Pacman extends JLabel {
     public int[] startPos = { 23, 13 };
     public int[] currentPos = { 23, 13 };
     public int[] previousPos = { 23, 13 };
@@ -97,7 +97,7 @@ public class Pacman extends JLabel implements Runnable {
         this.direction = direction;
     }
 
-    @Override
+    //@Override
     public void run() {
         try {
             move(direction);

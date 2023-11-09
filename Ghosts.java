@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 import javax.swing.ImageIcon;
@@ -14,10 +13,12 @@ public class Ghosts extends JLabel implements Runnable {
     public ImageIcon imageIcon;
     Map map;
     Pacman pacman;
+    Game game;
     private int[] pacpos;
     ArrayList<int[]> movedPlaces;
 
-    Ghosts(Pacman pacman) { 
+    Ghosts(Pacman pacman,Game game) { 
+        this.game = game;
         this.pacman = pacman;
         pacpos = pacman.currentPos.clone();
         movedPlaces = new ArrayList<int[]>();
@@ -29,7 +30,7 @@ public class Ghosts extends JLabel implements Runnable {
     @Override
     public void run() {
         try {
-            chase(this.startPos, pacman.currentPos);
+            chase(this.startPos, pacpos);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -68,22 +69,18 @@ public class Ghosts extends JLabel implements Runnable {
             check[1] = start[1] + 1;
             rightdis = distance(check, end);
         }
-        System.out.println(toString());
-        System.out.println(""+R[0]+", "+R[1]+"  "+contain(R));
-        System.out.println(""+L[0]+", "+L[1]+"  "+contain(R));
         if(Arrays.equals(pacpos, pacman.currentPos)){
-            if(contain(U)){  updis=0.0; System.out.println(""+U[0]+", "+U[1]);}
-            if(contain(D)) { downdis=0.0;System.out.println(""+D[0]+", "+D[1]);}
-            if(contain(L))  {leftdis=0.0;System.out.println(""+L[0]+", "+L[1]);}
-            if(contain(R))  { rightdis=0.0;System.out.println(""+R[0]+", "+R[1]);}
+            if(contain(U)){  updis=0.0;}
+            if(contain(D)) { downdis=0.0;}
+            if(contain(L))  {leftdis=0.0;}
+            if(contain(R))  { rightdis=0.0;}
         }
         else{
             pacpos = pacman.currentPos.clone();
         }
-
-        System.out.println(""+updis+" "+rightdis+" "+leftdis+" "+downdis);
         ArrayList<Double> distances = getDistances(updis, rightdis, leftdis, downdis);
         Collections.sort(distances);
+        try {
         if ((double) distances.get(0) == updis) {
             map.mapUp(this.currentPos, this.previousPos);
             setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
@@ -100,14 +97,29 @@ public class Ghosts extends JLabel implements Runnable {
             map.mapRight(this.currentPos, this.previousPos);
             setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
             movedPlaces.add(this.currentPos.clone());
+        }}
+        catch(IndexOutOfBoundsException e){
+           
         }
         if (distance(this.currentPos, end) == 1) {
-            return;
-        }
-        Thread.sleep(200);
-        chase(this.currentPos, end);
-
+        //     int selectedOption = JOptionPane.showOptionDialog(null, "GAME OVER!!! WANNA TRY AGAIN", null,JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
+        // if(selectedOption==1){
+        //     game.over();
+        // }
+        // else{
+        //    pacman.currentPos = pacman.startPos.clone();
+        //    this.currentPos = this.startPos.clone();
+        //    movedPlaces.clear();
+        // }
+        return;
     }
+     Thread.sleep(170);
+        chase(this.currentPos, this.pacpos);
+
+        }
+       
+
+
 
     @Override
     public String toString() {
@@ -142,8 +154,8 @@ public class Ghosts extends JLabel implements Runnable {
 
 class Blinky extends Ghosts{
 
-    Blinky(Pacman pacman) {
-        super(pacman);
+    Blinky(Pacman pacman,Game game) {
+        super(pacman, game);
         int[] pos = {29,1};
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
@@ -158,9 +170,9 @@ class Blinky extends Ghosts{
 
 class Clyde extends Ghosts{
 
-    Clyde(Pacman pacman) {
-        super(pacman);
-        int[] pos = {1,7};
+    Clyde(Pacman pacman,Game game) {
+        super(pacman, game);
+        int[] pos = {9,15};
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
@@ -174,8 +186,8 @@ class Clyde extends Ghosts{
 
 class Inky extends Ghosts{
 
-    Inky(Pacman pacman) {
-        super(pacman);
+    Inky(Pacman pacman,Game game) {
+        super(pacman, game);
          int[] pos = {1,26};
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
@@ -190,8 +202,8 @@ class Inky extends Ghosts{
 
 class Pinky extends Ghosts{
 
-    Pinky(Pacman pacman) {
-        super(pacman);
+    Pinky(Pacman pacman,Game game) {
+        super(pacman, game);
          int[] pos = {1,1};
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
