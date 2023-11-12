@@ -12,15 +12,21 @@ public class Game extends JFrame implements KeyListener {
     Thread ghost2chase;
     Thread ghost3chase;
     Thread ghost4chase;
+    public Clyde clyde;
+    public Inky inky;
+    public Blinky blinky;
+    public Pinky pinky;
+    static boolean isAlive = true;
     static ArrayList<Food> foods;
 
-    Game() {
+    Game(ArrayList<int[]> eatenFood) {
         foods = new ArrayList<Food>();
         pacman = new Pacman();
-        Ghosts blinky = new Blinky(pacman, this);
-        Ghosts clyde = new Clyde(pacman, this);
-        Ghosts inky = new Inky(pacman, this);
-        Ghosts pinky = new Pinky(pacman, this);
+        pacman.eatenfoods = eatenFood;
+        blinky = new Blinky(pacman, this);
+        clyde = new Clyde(pacman, this);
+        inky = new Inky(pacman, this);
+        pinky = new Pinky(pacman, this);
         Map map = new Map();
         map.setBackground(Color.BLACK);
         setLayout(null);
@@ -41,7 +47,9 @@ public class Game extends JFrame implements KeyListener {
                 if (map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
                         && (j == 11 || j == 12 || j == 13 || j == 14 || j == 15 || j == 16)))) {
                     int[] Pos = { i, j };
-                    foods.add(new Food(Pos));
+                    System.out.println(eatenFood.size());
+                    if(!pacman.eatenfoods.contains(Pos))
+                    {foods.add(new Food(Pos));}
                 }
             }
         }
@@ -59,6 +67,7 @@ public class Game extends JFrame implements KeyListener {
         Thread ghost4chase = new Thread(clyde);
         ghost4chase.start();
         pacman.run();
+       
 
     }
 
@@ -91,13 +100,18 @@ public class Game extends JFrame implements KeyListener {
     }
 
     public static void main(String[] args) {
-        new Game();
+        new Game(new ArrayList<>());
     }
 
     public void over() {
-        this.ghost1chase = null;
-        this.ghost2chase = null;
-        this.ghost3chase = null;
-        this.ghost4chase = null;
+        int selectedOption = JOptionPane.showOptionDialog(null, "GAME OVER!!! WANNA TRY AGAIN", null,
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
+        if (selectedOption == 1) {
+            this.dispose();
+        } else if(selectedOption==0){
+            this.dispose();
+            isAlive = true;
+            new Game(pacman.eatenfoods);
+        }
     }
 }

@@ -56,8 +56,9 @@ public class Pacman extends JLabel {
             default:
                 break;
         }
-        Thread.sleep(150);
-        move(this.direction);
+        Thread.sleep(120);
+        if(Game.isAlive){
+        move(this.direction);}
     }
 
     public void eat() {
@@ -97,7 +98,7 @@ public class Pacman extends JLabel {
         this.direction = direction;
     }
 
-    //@Override
+
     public void run() {
         try {
             move(direction);

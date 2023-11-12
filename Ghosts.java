@@ -17,7 +17,7 @@ public class Ghosts extends JLabel implements Runnable {
     private int[] pacpos;
     ArrayList<int[]> movedPlaces;
 
-    Ghosts(Pacman pacman,Game game) { 
+    Ghosts(Pacman pacman, Game game) {
         this.game = game;
         this.pacman = pacman;
         pacpos = pacman.currentPos.clone();
@@ -30,6 +30,7 @@ public class Ghosts extends JLabel implements Runnable {
     @Override
     public void run() {
         try {
+            Thread.sleep(1000);
             chase(this.startPos, pacpos);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
@@ -38,10 +39,10 @@ public class Ghosts extends JLabel implements Runnable {
     }
 
     public void chase(int[] start, int[] end) throws InterruptedException {
-        int[] U = {start[0]-1,start[1]}; 
-        int[] D = {start[0]+1,start[1]}; 
-        int[] L = {start[0],start[1]-1}; 
-        int[] R = {start[0],start[1]+1}; 
+        int[] U = { start[0] - 1, start[1] };
+        int[] D = { start[0] + 1, start[1] };
+        int[] L = { start[0], start[1] - 1 };
+        int[] R = { start[0], start[1] + 1 };
 
         int[] check = { 0, 0 };
         double updis = 0;
@@ -49,7 +50,7 @@ public class Ghosts extends JLabel implements Runnable {
         double leftdis = 0;
         double rightdis = 0;
 
-        if ((map.Map[start[0] - 1][start[1]]) == 2 ) {
+        if ((map.Map[start[0] - 1][start[1]]) == 2) {
             check[0] = start[0] - 1;
             check[1] = start[1];
             updis = distance(check, end);
@@ -69,149 +70,148 @@ public class Ghosts extends JLabel implements Runnable {
             check[1] = start[1] + 1;
             rightdis = distance(check, end);
         }
-        if(Arrays.equals(pacpos, pacman.currentPos)){
-            if(contain(U)){  updis=0.0;}
-            if(contain(D)) { downdis=0.0;}
-            if(contain(L))  {leftdis=0.0;}
-            if(contain(R))  { rightdis=0.0;}
-        }
-        else{
+        if (Arrays.equals(pacpos, pacman.currentPos)) {
+            if (contain(U)) {
+                updis = 0.0;
+            }
+            if (contain(D)) {
+                downdis = 0.0;
+            }
+            if (contain(L)) {
+                leftdis = 0.0;
+            }
+            if (contain(R)) {
+                rightdis = 0.0;
+            }
+        } else {
+            movedPlaces.clear();
             pacpos = pacman.currentPos.clone();
         }
+
         ArrayList<Double> distances = getDistances(updis, rightdis, leftdis, downdis);
         Collections.sort(distances);
+
         try {
-        if ((double) distances.get(0) == updis) {
-            map.mapUp(this.currentPos, this.previousPos);
-            setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
-            movedPlaces.add(this.currentPos.clone());
-        } else if ((double) distances.get(0) == downdis) {
-            map.mapDown(this.currentPos, this.previousPos);
-            setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
-            movedPlaces.add(this.currentPos.clone());
-        } else if ((double) distances.get(0) == leftdis) {
-            map.mapLeft(this.currentPos, this.previousPos);
-            setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
-            movedPlaces.add(this.currentPos.clone());
-        } else if ((double) distances.get(0) == rightdis) {
-            map.mapRight(this.currentPos, this.previousPos);
-            setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
-            movedPlaces.add(this.currentPos.clone());
-        }}
-        catch(IndexOutOfBoundsException e){
-           
+            if ((double) distances.get(0) == updis) {
+                map.mapUp(this.currentPos, this.previousPos);
+                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+                movedPlaces.add(this.currentPos.clone());
+            } else if ((double) distances.get(0) == downdis) {
+                map.mapDown(this.currentPos, this.previousPos);
+                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+                movedPlaces.add(this.currentPos.clone());
+            } else if ((double) distances.get(0) == leftdis) {
+                map.mapLeft(this.currentPos, this.previousPos);
+                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+                movedPlaces.add(this.currentPos.clone());
+            } else if ((double) distances.get(0) == rightdis) {
+                map.mapRight(this.currentPos, this.previousPos);
+                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+                movedPlaces.add(this.currentPos.clone());
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("error");
         }
         if (distance(this.currentPos, end) == 1) {
-        //     int selectedOption = JOptionPane.showOptionDialog(null, "GAME OVER!!! WANNA TRY AGAIN", null,JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
-        // if(selectedOption==1){
-        //     game.over();
-        // }
-        // else{
-        //    pacman.currentPos = pacman.startPos.clone();
-        //    this.currentPos = this.startPos.clone();
-        //    movedPlaces.clear();
-        // }
-        return;
-    }
-     Thread.sleep(170);
-        chase(this.currentPos, this.pacpos);
-
+            Game.isAlive = false;
+            game.over();
         }
-       
-
-
-
-    @Override
-    public String toString() {
-        String result = new String();
-        for (int[] i : movedPlaces) {
-            result+= ", ["+i[0]+", "+i[1]+"]";
+        Thread.sleep(250);
+        if (Game.isAlive) {
+            chase(this.currentPos, this.pacpos);
+        } else {
+            return;
         }
-        return result;
     }
 
     public double distance(int[] start, int[] end) {
         double dis = Math.round(Math.sqrt(Math.abs(end[0] - start[0]) * Math.abs(end[0] - start[0])
-                + Math.abs(end[1] - start[1]) * Math.abs(end[1] - start[1]))*10.0)/10.0;
+                + Math.abs(end[1] - start[1]) * Math.abs(end[1] - start[1])) * 10.0) / 10.0;
         return dis;
     }
 
-    public boolean contain(int[] value){
+    public boolean contain(int[] value) {
         for (int[] i : this.movedPlaces) {
-            if(Arrays.equals(i,value)) return true;
+            if (Arrays.equals(i, value))
+                return true;
         }
         return false;
     }
-    public ArrayList<Double> getDistances(double x,double y,double z,double w){
+
+    public ArrayList<Double> getDistances(double x, double y, double z, double w) {
         ArrayList<Double> values = new ArrayList<Double>();
-        if(x!=0.0) values.add(x);
-        if(y!=0.0) values.add(y);
-        if(z!=0.0) values.add(z);
-        if(w!=0.0) values.add(w);
+        if (x != 0.0)
+            values.add(x);
+        if (y != 0.0)
+            values.add(y);
+        if (z != 0.0)
+            values.add(z);
+        if (w != 0.0)
+            values.add(w);
         return values;
     }
 }
 
-class Blinky extends Ghosts{
+class Blinky extends Ghosts {
 
-    Blinky(Pacman pacman,Game game) {
+    Blinky(Pacman pacman, Game game) {
         super(pacman, game);
-        int[] pos = {29,1};
+        int[] pos = { 29, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("blinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
-    
+
 }
 
-class Clyde extends Ghosts{
+class Clyde extends Ghosts {
 
-    Clyde(Pacman pacman,Game game) {
+    Clyde(Pacman pacman, Game game) {
         super(pacman, game);
-        int[] pos = {9,15};
+        int[] pos = { 29, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("clyde.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
-    
+
 }
 
-class Inky extends Ghosts{
+class Inky extends Ghosts {
 
-    Inky(Pacman pacman,Game game) {
+    Inky(Pacman pacman, Game game) {
         super(pacman, game);
-         int[] pos = {1,26};
+        int[] pos = { 1, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("inky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
-    
+
 }
 
-class Pinky extends Ghosts{
+class Pinky extends Ghosts {
 
-    Pinky(Pacman pacman,Game game) {
+    Pinky(Pacman pacman, Game game) {
         super(pacman, game);
-         int[] pos = {1,1};
+        int[] pos = { 1, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("pinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
-    
+
 }
