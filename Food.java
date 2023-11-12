@@ -1,5 +1,4 @@
 import java.awt.Color;
-
 import javax.swing.JLabel;
 
 public class Food extends JLabel {

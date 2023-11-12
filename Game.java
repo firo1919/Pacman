@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import javax.swing.*;
 
 public class Game extends JFrame implements KeyListener {
@@ -47,7 +45,6 @@ public class Game extends JFrame implements KeyListener {
                 if (map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
                         && (j == 11 || j == 12 || j == 13 || j == 14 || j == 15 || j == 16)))) {
                     int[] Pos = { i, j };
-                    System.out.println(eatenFood.size());
                     if(!pacman.eatenfoods.contains(Pos))
                     {foods.add(new Food(Pos));}
                 }
