@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Map extends JPanel {
-    int[][] Map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+  public  static int[][] Map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
             { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
             { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
@@ -156,7 +156,7 @@ public class Map extends JPanel {
         
 
     }
-    public boolean mapUp(int[] Pos,int[] pos2){
+    public static boolean mapUp(int[] Pos,int[] pos2){
         if(Map[Pos[0]-1][Pos[1]]==2){
             pos2 = Pos.clone();
             Pos[0] = Pos[0]-1;
@@ -165,7 +165,7 @@ public class Map extends JPanel {
         return false;
     }
 
-    public boolean mapDown(int[] Pos,int[] pos2){
+    public static boolean mapDown(int[] Pos,int[] pos2){
         if(Map[Pos[0]+1][Pos[1]]==2){
             pos2 = Pos.clone();
             Pos[0] = Pos[0]+1;
@@ -174,7 +174,7 @@ public class Map extends JPanel {
         return false;
     }
 
-    public boolean mapLeft(int[] Pos,int[] pos2){
+    public static boolean mapLeft(int[] Pos,int[] pos2){
         if(Map[Pos[0]][Pos[1]-1]==2){
             pos2 = Pos.clone();
             Pos[1] = Pos[1]-1;
@@ -183,7 +183,7 @@ public class Map extends JPanel {
         return false;
     }
 
-    public boolean mapRight(int[] Pos,int[] pos2){
+    public static boolean mapRight(int[] Pos,int[] pos2){
         if(Map[Pos[0]][Pos[1]+1]==2){
             pos2[0] = Pos[0];
             pos2[1] = Pos[1];

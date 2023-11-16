@@ -3,26 +3,26 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class Ghosts extends JLabel implements Runnable {
     public int[] startPos = new int[2];
     public int[] currentPos = new int[2];
     public int[] previousPos = new int[2];
     public ImageIcon imageIcon;
-    Map map;
     Pacman pacman;
     Game game;
     private int[] pacpos;
-    ArrayList<int[]> movedPlaces;
+    private ArrayList<int[]> movedPlaces;
 
     Ghosts(Pacman pacman, Game game) {
         this.game = game;
         this.pacman = pacman;
-        pacpos = pacman.currentPos.clone();
+        pacpos = pacman.getCurrentPos().clone();
         movedPlaces = new ArrayList<int[]>();
-        map = new Map();
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
     }
@@ -50,42 +50,42 @@ public class Ghosts extends JLabel implements Runnable {
         double leftdis = 0;
         double rightdis = 0;
 
-        if ((map.Map[start[0] - 1][start[1]]) == 2) {
+        if ((Map.Map[start[0] - 1][start[1]]) == 2) {
             check[0] = start[0] - 1;
             check[1] = start[1];
             updis = distance(check, end);
         }
-        if ((map.Map[start[0] + 1][start[1]]) == 2) {
+        if ((Map.Map[start[0] + 1][start[1]]) == 2) {
             check[0] = start[0] + 1;
             check[1] = start[1];
             downdis = distance(check, end);
         }
-        if ((map.Map[start[0]][start[1] - 1]) == 2) {
+        if ((Map.Map[start[0]][start[1] - 1]) == 2) {
             check[0] = start[0];
             check[1] = start[1] - 1;
             leftdis = distance(check, end);
         }
-        if ((map.Map[start[0]][start[1] + 1]) == 2) {
+        if ((Map.Map[start[0]][start[1] + 1]) == 2) {
             check[0] = start[0];
             check[1] = start[1] + 1;
             rightdis = distance(check, end);
         }
-        if (Arrays.equals(pacpos, pacman.currentPos)) {
-            if (contain(U)) {
+        if (Arrays.equals(pacpos, pacman.getCurrentPos())) {
+            if (contain(U,movedPlaces)) {
                 updis = 0.0;
             }
-            if (contain(D)) {
+            if (contain(D,movedPlaces)) {
                 downdis = 0.0;
             }
-            if (contain(L)) {
+            if (contain(L,movedPlaces)) {
                 leftdis = 0.0;
             }
-            if (contain(R)) {
+            if (contain(R,movedPlaces)) {
                 rightdis = 0.0;
             }
         } else {
             movedPlaces.clear();
-            pacpos = pacman.currentPos.clone();
+            pacpos = pacman.getCurrentPos().clone();
         }
 
         ArrayList<Double> distances = getDistances(updis, rightdis, leftdis, downdis);
@@ -93,27 +93,28 @@ public class Ghosts extends JLabel implements Runnable {
 
         try {
             if ((double) distances.get(0) == updis) {
-                map.mapUp(this.currentPos, this.previousPos);
+                Map.mapUp(this.currentPos, this.previousPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == downdis) {
-                map.mapDown(this.currentPos, this.previousPos);
+                Map.mapDown(this.currentPos, this.previousPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == leftdis) {
-                map.mapLeft(this.currentPos, this.previousPos);
+                Map.mapLeft(this.currentPos, this.previousPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == rightdis) {
-                map.mapRight(this.currentPos, this.previousPos);
+                Map.mapRight(this.currentPos, this.previousPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("error");
         }
-        if (distance(this.currentPos, end) == 1) {
+        if (distance(this.currentPos, end) == 1 ) {
             Game.isAlive = false;
+            pacman.killLives();
             game.over();
         }
         Thread.sleep(250);
@@ -126,18 +127,18 @@ public class Ghosts extends JLabel implements Runnable {
 
     public double distance(int[] start, int[] end) {
         double dis = Math.round(Math.sqrt(Math.abs(end[0] - start[0]) * Math.abs(end[0] - start[0])
-                + Math.abs(end[1] - start[1]) * Math.abs(end[1] - start[1])) * 10.0) / 10.0;
+                + Math.abs(end[1] - start[1]) * Math.abs(end[1] - start[1])));
         return dis;
     }
 
-    public boolean contain(int[] value) {
-        for (int[] i : this.movedPlaces) {
-            if (Arrays.equals(i, value))
+    public boolean contain(int[] target,ArrayList<int[]> value) {
+        for (int[] i : value) {
+            if (Arrays.equals(i, target))
                 return true;
         }
         return false;
     }
-
+    
     public ArrayList<Double> getDistances(double x, double y, double z, double w) {
         ArrayList<Double> values = new ArrayList<Double>();
         if (x != 0.0)
@@ -160,7 +161,7 @@ class Blinky extends Ghosts {
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
-        super.imageIcon = new ImageIcon("blinky.gif");
+        super.imageIcon = new ImageIcon("images/blinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         // TODO Auto-generated constructor stub
@@ -176,7 +177,7 @@ class Clyde extends Ghosts {
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
-        super.imageIcon = new ImageIcon("clyde.gif");
+        super.imageIcon = new ImageIcon("images/clyde.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         // TODO Auto-generated constructor stub
@@ -192,7 +193,7 @@ class Inky extends Ghosts {
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
-        super.imageIcon = new ImageIcon("inky.gif");
+        super.imageIcon = new ImageIcon("images/inky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         // TODO Auto-generated constructor stub
@@ -208,7 +209,7 @@ class Pinky extends Ghosts {
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
         super.previousPos = pos.clone();
-        super.imageIcon = new ImageIcon("pinky.gif");
+        super.imageIcon = new ImageIcon("images/pinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         // TODO Auto-generated constructor stub

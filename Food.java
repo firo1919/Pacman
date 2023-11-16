@@ -5,8 +5,7 @@ public class Food extends JLabel {
     private int[] position = new int[2];
    
     Food(int[] Pos){
-        position[0] = Pos[0];
-        position[1] = Pos[1];
+        position = Pos.clone();
         setBounds(Pos[1]*20+5,(60+Pos[0]*20)+5,10,10);
         setBackground(Color.ORANGE);
         setOpaque(true);

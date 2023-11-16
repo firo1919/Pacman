@@ -5,49 +5,48 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Pacman extends JLabel {
-    public int[] startPos = { 23, 13 };
-    public int[] currentPos = { 23, 13 };
-    public int[] previousPos = { 23, 13 };
-    private String direction = "right";
-
-    Map map;
-    Icon imageIcon;
-    public ArrayList<int[]> eatenfoods = new ArrayList<int[]>();
+    private int[] startPos = { 23, 13 };
+    private int[] currentPos = { 23, 13 };
+    private int[] previousPos = { 23, 13 };
+    private String currentDirection = "right";
+    private String previousDirection = "right";
+    private Icon imageIcon;
+    private static int lives = 4;
+    private static ArrayList<int[]> eatenfoods = new ArrayList<int[]>();
 
     Pacman() {
-        map = new Map();
-        changeDirection(direction);
+        changeDirection(this.currentDirection);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
     }
 
-    public void move(String direction) throws InterruptedException {
-        if (!direction.equals(this.direction)) {
-            changeDirection(direction);
-            this.direction = direction;
+    public void move() throws InterruptedException {
+        if(!this.previousDirection.equals(this.currentDirection)){
+            changeDirection(this.currentDirection);
+            this.previousDirection = currentDirection+"";
         }
-        switch (direction) {
+        switch (this.previousDirection) {
             case "up":
-                if (map.mapUp(this.currentPos,this.previousPos)) {
+                if (Map.mapUp(this.currentPos,this.previousPos)) {
                         setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "down":
-                if (map.mapDown(this.currentPos,this.previousPos)) {
+                if (Map.mapDown(this.currentPos,this.previousPos)) {
                     setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "left":
-                if (map.mapLeft(this.currentPos,this.previousPos)) {
+                if (Map.mapLeft(this.currentPos,this.previousPos)) {
                    setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "right":
-                if (map.mapRight(this.currentPos,this.previousPos)) {
+                if (Map.mapRight(this.currentPos,this.previousPos)) {
                      setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
@@ -58,16 +57,17 @@ public class Pacman extends JLabel {
         }
         Thread.sleep(120);
         if(Game.isAlive){
-        move(this.direction);}
+        move();}
     }
 
     public void eat() {
         for (Food food : Game.foods) {
             if ((food.getPosition()[0] == this.currentPos[0])
                     && (food.getPosition()[1] == this.currentPos[1])
-                    && (!this.eatenfoods.contains(food.getPosition()))) {
+                    && (!eatenfoods.contains(food.getPosition()))) {
                 food.setVisible(false);
                 eatenfoods.add(food.getPosition());
+                Game.score.setText(eatenfoods.size()+"");
                 break;
             }
         }
@@ -76,35 +76,77 @@ public class Pacman extends JLabel {
 
     public void changeDirection(String direction) {
         if (direction.equals("left")) {
-            imageIcon = new ImageIcon("PacmanLeft.gif");
+            imageIcon = new ImageIcon("images/PacmanLeft.gif");
             setIcon(imageIcon);
 
         } else if (direction.equals("right")) {
-            imageIcon = new ImageIcon("Pacman.gif");
+            imageIcon = new ImageIcon("images/Pacman.gif");
             setIcon(imageIcon);
 
         } else if (direction.equals("up")) {
-            imageIcon = new ImageIcon("PacmanUp.gif");
+            imageIcon = new ImageIcon("images/PacmanUp.gif");
             setIcon(imageIcon);
 
         } else if (direction.equals("down")) {
-            imageIcon = new ImageIcon("PacmanDown.gif");
+            imageIcon = new ImageIcon("images/PacmanDown.gif");
             setIcon(imageIcon);
 
         }
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-
     public void run() {
         try {
-            move(direction);
+            move();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+ public void setDirection(String direction) {
+        this.currentDirection = direction;
+    }
+     public int[] getStartPos() {
+        return startPos;
+    }
+
+    public void setStartPos(int[] startPos) {
+        this.startPos = startPos;
+    }
+
+    public int[] getCurrentPos() {
+        return currentPos;
+    }
+
+    public void setCurrentPos(int[] currentPos) {
+        this.currentPos = currentPos;
+    }
+
+    public int[] getPreviousPos() {
+        return previousPos;
+    }
+
+    public void setPreviousPos(int[] previousPos) {
+        this.previousPos = previousPos;
+    }
+
+    public ArrayList<int[]> getEatenfoods() {
+        return eatenfoods;
+    }
+
+    public void setEatenfoods(ArrayList<int[]> eatenfoods) {
+        eatenfoods = eatenfoods;
+    }
+     public int getLives() {
+        return lives;
+    }
+
+    public void killLives(){
+        lives--;
+    }
+
+    public void resetLives() {
+        lives = 4;
+    }
+
+
 }

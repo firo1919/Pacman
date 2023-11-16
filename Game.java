@@ -2,29 +2,36 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class Game extends JFrame implements KeyListener {
     Pacman pacman;
-    Thread ghost1chase;
-    Thread ghost2chase;
-    Thread ghost3chase;
-    Thread ghost4chase;
-    public Clyde clyde;
-    public Inky inky;
-    public Blinky blinky;
-    public Pinky pinky;
-    static boolean isAlive = true;
-    static ArrayList<Food> foods;
-
-    Game(ArrayList<int[]> eatenFood) {
+    public static boolean isAlive = true;
+    public static ArrayList<Food> foods;
+    public static JLabel score;
+    Game() {
         foods = new ArrayList<Food>();
         pacman = new Pacman();
-        pacman.eatenfoods = eatenFood;
-        blinky = new Blinky(pacman, this);
-        clyde = new Clyde(pacman, this);
-        inky = new Inky(pacman, this);
-        pinky = new Pinky(pacman, this);
+        JLabel lifes = new JLabel("Lifes"); 
+        lifes.setBounds(0,20,40,20);
+        lifes.setForeground(Color.YELLOW);
+        add(lifes);
+
+        score = new JLabel("0"); 
+        score.setBounds(500,20,40,20);
+        score.setForeground(Color.YELLOW);
+        add(score);
+        for(int i = 0; i < pacman.getLives();i++){
+            JLabel life = new JLabel(new ImageIcon("images/lifes.png"));
+            life.setBounds(i*30+40,20,20,20);
+            add(life);
+        }
+        Blinky blinky = new Blinky(pacman, this);
+        Clyde clyde = new Clyde(pacman, this);
+        Inky inky = new Inky(pacman, this);
+        Pinky pinky = new Pinky(pacman, this);
         Map map = new Map();
         map.setBackground(Color.BLACK);
         setLayout(null);
@@ -42,11 +49,10 @@ public class Game extends JFrame implements KeyListener {
 
         for (int i = 0; i < 31; i++) {
             for (int j = 0; j < 27; j++) {
-                if (map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
+                if (Map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
                         && (j == 11 || j == 12 || j == 13 || j == 14 || j == 15 || j == 16)))) {
-                    int[] Pos = { i, j };
-                    if(!pacman.eatenfoods.contains(Pos))
-                    {foods.add(new Food(Pos));}
+                    if(!contain(new int[]{i,j},pacman.getEatenfoods()))
+                    {foods.add(new Food(new int[]{i,j}));}
                 }
             }
         }
@@ -97,10 +103,11 @@ public class Game extends JFrame implements KeyListener {
     }
 
     public static void main(String[] args) {
-        new Game(new ArrayList<>());
+        new Game();
     }
 
     public void over() {
+        if(pacman.getLives()>0){
         int selectedOption = JOptionPane.showOptionDialog(null, "GAME OVER!!! WANNA TRY AGAIN", null,
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
         if (selectedOption == 1) {
@@ -108,7 +115,28 @@ public class Game extends JFrame implements KeyListener {
         } else if(selectedOption==0){
             this.dispose();
             isAlive = true;
-            new Game(pacman.eatenfoods);
+            new Game();
+        }}
+        else{
+             int selectedOption = JOptionPane.showOptionDialog(null, "YOU HAVE WASTED YOUR LIVES WANNA START AGAIN", null,
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
+                if (selectedOption == 1) {
+            this.dispose();
+        } else if(selectedOption==0){
+            this.dispose();
+            isAlive = true;
+            pacman.getEatenfoods().clear();
+            pacman.resetLives();
+            new Game();
         }
+        }
+    }
+
+    public boolean contain(int[] target,ArrayList<int[]> value) {
+        for (int[] i : value) {
+            if (Arrays.equals(i, target))
+                return true;
+        }
+        return false;
     }
 }
