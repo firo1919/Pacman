@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Map extends JPanel {
+    //an array of size 32 x 28, for referencing ghost and pacman position 
   public  static int[][] Map = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
             { 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1 },
@@ -40,7 +41,7 @@ public class Map extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {//for drawing the game map, 
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         Graphics2D path = (Graphics2D) g;
@@ -156,6 +157,9 @@ public class Map extends JPanel {
         
 
     }
+
+    //methods for validating a move to a given direction 
+    
     public static boolean mapUp(int[] Pos,int[] pos2){
         if(Map[Pos[0]-1][Pos[1]]==2){
             pos2 = Pos.clone();

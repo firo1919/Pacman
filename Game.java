@@ -8,32 +8,39 @@ import javax.swing.*;
 
 public class Game extends JFrame implements KeyListener {
     Pacman pacman;
-    public static boolean isAlive = true;
+    public static boolean isAlive = true;//set to false if pacman gets  caught
     public static ArrayList<Food> foods;
     public static JLabel score;
-    Game() {
-        foods = new ArrayList<Food>();
-        pacman = new Pacman();
-        JLabel lifes = new JLabel("Lifes"); 
-        lifes.setBounds(0,20,40,20);
-        lifes.setForeground(Color.YELLOW);
-        add(lifes);
 
+
+    Game() {
+        //list of foods
+        foods = new ArrayList<Food>();
+        //the pacman object
+        pacman = new Pacman();
         score = new JLabel("0"); 
         score.setBounds(500,20,40,20);
         score.setForeground(Color.YELLOW);
         add(score);
+        //all 4 ghosts initialized
+        Blinky blinky = new Blinky(pacman, this);
+        Clyde clyde = new Clyde(pacman, this);
+        Inky inky = new Inky(pacman, this);
+        Pinky pinky = new Pinky(pacman, this);
+        //map for reference between object location in jframe and the game
+        Map map = new Map();
+        map.setBackground(Color.BLACK);
+
+        JLabel lifes = new JLabel("Lifes"); 
+        lifes.setBounds(0,20,40,20);
+        lifes.setForeground(Color.YELLOW);
+        add(lifes);
         for(int i = 0; i < pacman.getLives();i++){
             JLabel life = new JLabel(new ImageIcon("images/lifes.png"));
             life.setBounds(i*30+40,20,20,20);
             add(life);
         }
-        Blinky blinky = new Blinky(pacman, this);
-        Clyde clyde = new Clyde(pacman, this);
-        Inky inky = new Inky(pacman, this);
-        Pinky pinky = new Pinky(pacman, this);
-        Map map = new Map();
-        map.setBackground(Color.BLACK);
+        
         setLayout(null);
         setTitle("Pacman");
         setResizable(false);
@@ -46,7 +53,10 @@ public class Game extends JFrame implements KeyListener {
         add(pinky);
         add(pacman);
         add(map);
+        addKeyListener(this);
+        setVisible(true);
 
+        //adds all uneaten foods to the appropriate position
         for (int i = 0; i < 31; i++) {
             for (int j = 0; j < 27; j++) {
                 if (Map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
@@ -59,8 +69,8 @@ public class Game extends JFrame implements KeyListener {
         for (Food food : foods) {
             map.add(food);
         }
-        addKeyListener(this);
-        setVisible(true);
+
+        //starts the thread for each ghost , 
         Thread ghost1chase = new Thread(blinky);
         ghost1chase.start();
         Thread ghost2chase = new Thread(pinky);
@@ -69,11 +79,13 @@ public class Game extends JFrame implements KeyListener {
         ghost3chase.start();
         Thread ghost4chase = new Thread(clyde);
         ghost4chase.start();
+        //then pacman starts running concurrently from the ghosts
         pacman.run();
        
 
     }
 
+    //a key listner for direction input from user keyboard
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
