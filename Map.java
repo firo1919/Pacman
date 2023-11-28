@@ -17,7 +17,7 @@ public class Map extends JPanel {
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
-            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+            { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1  },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
             { 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1 },
@@ -160,37 +160,32 @@ public class Map extends JPanel {
 
     //methods for validating a move to a given direction 
     
-    public static boolean mapUp(int[] Pos,int[] pos2){
+    public static boolean mapUp(int[] Pos){
         if(Map[Pos[0]-1][Pos[1]]==2){
-            pos2 = Pos.clone();
             Pos[0] = Pos[0]-1;
             return true;
         }
         return false;
     }
 
-    public static boolean mapDown(int[] Pos,int[] pos2){
+    public static boolean mapDown(int[] Pos){
         if(Map[Pos[0]+1][Pos[1]]==2){
-            pos2 = Pos.clone();
             Pos[0] = Pos[0]+1;
             return true;
         }
         return false;
     }
 
-    public static boolean mapLeft(int[] Pos,int[] pos2){
+    public static boolean mapLeft(int[] Pos){
         if(Map[Pos[0]][Pos[1]-1]==2){
-            pos2 = Pos.clone();
             Pos[1] = Pos[1]-1;
             return true;
         }
         return false;
     }
 
-    public static boolean mapRight(int[] Pos,int[] pos2){
+    public static boolean mapRight(int[] Pos){
         if(Map[Pos[0]][Pos[1]+1]==2){
-            pos2[0] = Pos[0];
-            pos2[1] = Pos[1];
             Pos[1] = Pos[1]+1;
             return true;
         }

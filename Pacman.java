@@ -3,18 +3,20 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Pacman extends JLabel {
     private int[] startPos = { 23, 13 };
     private int[] currentPos = { 23, 13 };
-    private int[] previousPos = { 23, 13 };
+    private Game game;
     private String currentDirection = "right";
     private String previousDirection = "right";
     private Icon imageIcon;
     private static int lives = 4;
     private static ArrayList<int[]> eatenfoods = new ArrayList<int[]>();
 
-    Pacman() {
+    Pacman(Game game) {
+        this.game = game;
         changeDirection(this.currentDirection);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
         setHorizontalAlignment(JLabel.CENTER);
@@ -28,25 +30,25 @@ public class Pacman extends JLabel {
         }
         switch (this.previousDirection) {
             case "up":
-                if (Map.mapUp(this.currentPos,this.previousPos)) {
+                if (Map.mapUp(this.currentPos)) {
                         setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "down":
-                if (Map.mapDown(this.currentPos,this.previousPos)) {
+                if (Map.mapDown(this.currentPos)) {
                     setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "left":
-                if (Map.mapLeft(this.currentPos,this.previousPos)) {
+                if (Map.mapLeft(this.currentPos)) {
                    setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
                 break;
             case "right":
-                if (Map.mapRight(this.currentPos,this.previousPos)) {
+                if (Map.mapRight(this.currentPos)) {
                      setLocation(this.currentPos[1] * 20 - 9,(60 + this.currentPos[0] * 20) - 9);
                     eat();
                 }
@@ -57,7 +59,21 @@ public class Pacman extends JLabel {
         }
         Thread.sleep(120);
         if(Game.isAlive){
-        move();}
+            if(this.getEatenfoods().size()!=296){ move();}
+            else{
+             int selectedOption = JOptionPane.showOptionDialog(null, "YOU WON CONGRATULATIONS WANNA PLAY AGAIN?", null,
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
+                if (selectedOption == 1) {
+            game.dispose();
+        } else if(selectedOption==0){
+            game.dispose();
+            Game.isAlive = true;
+            this.getEatenfoods().clear();
+            this.resetLives();
+            new Game();
+        }
+        }
+    }
     }
 
     public void eat() {
@@ -119,14 +135,6 @@ public class Pacman extends JLabel {
 
     public void setCurrentPos(int[] currentPos) {
         this.currentPos = currentPos;
-    }
-
-    public int[] getPreviousPos() {
-        return previousPos;
-    }
-
-    public void setPreviousPos(int[] previousPos) {
-        this.previousPos = previousPos;
     }
 
     public ArrayList<int[]> getEatenfoods() {

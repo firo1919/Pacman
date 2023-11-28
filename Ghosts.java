@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 public class Ghosts extends JLabel implements Runnable {
     public int[] startPos = new int[2];
     public int[] currentPos = new int[2];
-    public int[] previousPos = new int[2];
     public ImageIcon imageIcon;
     Pacman pacman;
     Game game;
@@ -90,19 +89,19 @@ public class Ghosts extends JLabel implements Runnable {
 
         try {
             if ((double) distances.get(0) == updis) {
-                Map.mapUp(this.currentPos, this.previousPos);
+                Map.mapUp(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == downdis) {
-                Map.mapDown(this.currentPos, this.previousPos);
+                Map.mapDown(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == leftdis) {
-                Map.mapLeft(this.currentPos, this.previousPos);
+                Map.mapLeft(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             } else if ((double) distances.get(0) == rightdis) {
-                Map.mapRight(this.currentPos, this.previousPos);
+                Map.mapRight(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
                 movedPlaces.add(this.currentPos.clone());
             }
@@ -157,7 +156,6 @@ class Blinky extends Ghosts {
         int[] pos = { 29, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("images/blinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
@@ -173,7 +171,6 @@ class Clyde extends Ghosts {
         int[] pos = { 29, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("images/clyde.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
@@ -189,7 +186,6 @@ class Inky extends Ghosts {
         int[] pos = { 1, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("images/inky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
@@ -205,7 +201,6 @@ class Pinky extends Ghosts {
         int[] pos = { 1, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.previousPos = pos.clone();
         super.imageIcon = new ImageIcon("images/pinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);

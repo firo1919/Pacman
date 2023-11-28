@@ -17,8 +17,8 @@ public class Game extends JFrame implements KeyListener {
         //list of foods
         foods = new ArrayList<Food>();
         //the pacman object
-        pacman = new Pacman();
-        score = new JLabel("0"); 
+        pacman = new Pacman(this);
+        score = new JLabel(pacman.getEatenfoods().size()+""); 
         score.setBounds(500,20,40,20);
         score.setForeground(Color.YELLOW);
         add(score);
