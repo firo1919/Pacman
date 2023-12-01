@@ -114,7 +114,6 @@ public class Pacman extends JLabel {
         try {
             move();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

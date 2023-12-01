@@ -29,7 +29,6 @@ public class Ghosts extends JLabel implements Runnable {
             Thread.sleep(1000);
             chase(this.startPos, pacpos);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -84,30 +83,31 @@ public class Ghosts extends JLabel implements Runnable {
             pacpos = pacman.getCurrentPos().clone();
         }
 
-        ArrayList<Double> distances = getDistances(updis, rightdis, leftdis, downdis);
+    ArrayList<Double> distances = new ArrayList<>();
+    distances.add(updis);
+    distances.add(downdis);
+    distances.add(leftdis);
+    distances.add(rightdis);
         Collections.sort(distances);
+        distances.removeIf(n -> (n == 0));
 
-        try {
-            if ((double) distances.get(0) == updis) {
+            if (distances.get(0) == updis) {
                 Map.mapUp(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-                movedPlaces.add(this.currentPos.clone());
-            } else if ((double) distances.get(0) == downdis) {
+            } else if (distances.get(0) == downdis) {
                 Map.mapDown(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-                movedPlaces.add(this.currentPos.clone());
-            } else if ((double) distances.get(0) == leftdis) {
+            } else if (distances.get(0) == leftdis) {
                 Map.mapLeft(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-                movedPlaces.add(this.currentPos.clone());
-            } else if ((double) distances.get(0) == rightdis) {
+            } else if (distances.get(0) == rightdis) {
                 Map.mapRight(this.currentPos);
                 setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-                movedPlaces.add(this.currentPos.clone());
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("error");
-        }
+        
+        movedPlaces.add(this.currentPos.clone());
+
+        
         if (distance(this.currentPos, end) == 1 ) {
             Game.isAlive = false;
             pacman.killLives();
@@ -134,19 +134,6 @@ public class Ghosts extends JLabel implements Runnable {
         }
         return false;
     }
-    
-    public ArrayList<Double> getDistances(double x, double y, double z, double w) {
-        ArrayList<Double> values = new ArrayList<Double>();
-        if (x != 0.0)
-            values.add(x);
-        if (y != 0.0)
-            values.add(y);
-        if (z != 0.0)
-            values.add(z);
-        if (w != 0.0)
-            values.add(w);
-        return values;
-    }
 }
 
 class Blinky extends Ghosts {
@@ -159,7 +146,6 @@ class Blinky extends Ghosts {
         super.imageIcon = new ImageIcon("images/blinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        // TODO Auto-generated constructor stub
     }
 
 }
@@ -174,7 +160,6 @@ class Clyde extends Ghosts {
         super.imageIcon = new ImageIcon("images/clyde.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        // TODO Auto-generated constructor stub
     }
 
 }
@@ -189,7 +174,6 @@ class Inky extends Ghosts {
         super.imageIcon = new ImageIcon("images/inky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        // TODO Auto-generated constructor stub
     }
 
 }
@@ -204,7 +188,6 @@ class Pinky extends Ghosts {
         super.imageIcon = new ImageIcon("images/pinky.gif");
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
-        // TODO Auto-generated constructor stub
     }
 
 }
