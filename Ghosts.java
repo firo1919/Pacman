@@ -3,8 +3,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-
 public class Ghosts extends JLabel implements Runnable {
     public int[] startPos = new int[2];
     public int[] currentPos = new int[2];
@@ -45,37 +43,37 @@ public class Ghosts extends JLabel implements Runnable {
         double leftdis = 0;
         double rightdis = 0;
 
-        if ((Map.Map[start[0] - 1][start[1]]) == 2) {
+        if ((Map.Map[U[0]][U[1]]) == 2) {
             check[0] = start[0] - 1;
             check[1] = start[1];
             updis = distance(check, end);
         }
-        if ((Map.Map[start[0] + 1][start[1]]) == 2) {
+        if ((Map.Map[D[0]][D[1]]) == 2) {
             check[0] = start[0] + 1;
             check[1] = start[1];
             downdis = distance(check, end);
         }
-        if ((Map.Map[start[0]][start[1] - 1]) == 2) {
+        if ((Map.Map[L[0]][L[1]]) == 2) {
             check[0] = start[0];
             check[1] = start[1] - 1;
             leftdis = distance(check, end);
         }
-        if ((Map.Map[start[0]][start[1] + 1]) == 2) {
+        if ((Map.Map[R[0]][R[1]]) == 2) {
             check[0] = start[0];
             check[1] = start[1] + 1;
             rightdis = distance(check, end);
         }
         if (Arrays.equals(pacpos, pacman.getCurrentPos())) {
-            if (contain(U,movedPlaces)) {
+            if (contain(U, movedPlaces)) {
                 updis = 0.0;
             }
-            if (contain(D,movedPlaces)) {
+            if (contain(D, movedPlaces)) {
                 downdis = 0.0;
             }
-            if (contain(L,movedPlaces)) {
+            if (contain(L, movedPlaces)) {
                 leftdis = 0.0;
             }
-            if (contain(R,movedPlaces)) {
+            if (contain(R, movedPlaces)) {
                 rightdis = 0.0;
             }
         } else {
@@ -83,32 +81,27 @@ public class Ghosts extends JLabel implements Runnable {
             pacpos = pacman.getCurrentPos().clone();
         }
 
-    ArrayList<Double> distances = new ArrayList<>();
-    distances.add(updis);
-    distances.add(downdis);
-    distances.add(leftdis);
-    distances.add(rightdis);
+        ArrayList<Double> distances = new ArrayList<>(Arrays.asList(updis, downdis, leftdis, rightdis));
         Collections.sort(distances);
         distances.removeIf(n -> (n == 0));
 
-            if (distances.get(0) == updis) {
-                Map.mapUp(this.currentPos);
-                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-            } else if (distances.get(0) == downdis) {
-                Map.mapDown(this.currentPos);
-                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-            } else if (distances.get(0) == leftdis) {
-                Map.mapLeft(this.currentPos);
-                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-            } else if (distances.get(0) == rightdis) {
-                Map.mapRight(this.currentPos);
-                setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
-            }
-        
+        if (distances.get(0) == updis) {
+            Map.mapUp(this.currentPos);
+            setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+        } else if (distances.get(0) == downdis) {
+            Map.mapDown(this.currentPos);
+            setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+        } else if (distances.get(0) == leftdis) {
+            Map.mapLeft(this.currentPos);
+            setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+        } else if (distances.get(0) == rightdis) {
+            Map.mapRight(this.currentPos);
+            setLocation(this.currentPos[1] * 20 - 9, (60 + this.currentPos[0] * 20) - 9);
+        }
+
         movedPlaces.add(this.currentPos.clone());
 
-        
-        if (distance(this.currentPos, end) == 1 ) {
+        if (distance(this.currentPos, end) == 1) {
             Game.isAlive = false;
             pacman.killLives();
             game.over();
@@ -127,7 +120,7 @@ public class Ghosts extends JLabel implements Runnable {
         return dis;
     }
 
-    public boolean contain(int[] target,ArrayList<int[]> value) {
+    public boolean contain(int[] target, ArrayList<int[]> value) {
         for (int[] i : value) {
             if (Arrays.equals(i, target))
                 return true;
