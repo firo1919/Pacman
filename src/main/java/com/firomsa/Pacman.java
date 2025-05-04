@@ -1,3 +1,4 @@
+package com.firomsa;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
@@ -13,7 +14,7 @@ public class Pacman extends JLabel {
     private String previousDirection = "right";
     private Icon imageIcon;
     private static int lives = 4;
-    private static ArrayList<int[]> eatenfoods = new ArrayList<int[]>();
+    private static ArrayList<int[]> eatenFoods = new ArrayList<int[]>();
 
     Pacman(Game game) {
         this.game = game;
@@ -59,7 +60,7 @@ public class Pacman extends JLabel {
         }
         Thread.sleep(120);
         if(Game.isAlive){
-            if(this.getEatenfoods().size()!=296){ move();}
+            if(this.getEatenFoods().size()!=296){ move();}
             else{
              int selectedOption = JOptionPane.showOptionDialog(null, "YOU WON CONGRATULATIONS WANNA PLAY AGAIN?", null,
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, 0);
@@ -68,7 +69,7 @@ public class Pacman extends JLabel {
         } else if(selectedOption==0){
             game.dispose();
             Game.isAlive = true;
-            this.getEatenfoods().clear();
+            this.getEatenFoods().clear();
             this.resetLives();
             new Game();
         }
@@ -80,10 +81,10 @@ public class Pacman extends JLabel {
         for (Food food : Game.foods) {
             if ((food.getPosition()[0] == this.currentPos[0])
                     && (food.getPosition()[1] == this.currentPos[1])
-                    && (!eatenfoods.contains(food.getPosition()))) {
+                    && (!eatenFoods.contains(food.getPosition()))) {
                 food.setVisible(false);
-                eatenfoods.add(food.getPosition());
-                Game.score.setText(eatenfoods.size()+"");
+                eatenFoods.add(food.getPosition());
+                Game.score.setText(eatenFoods.size()+"");
                 break;
             }
         }
@@ -92,19 +93,19 @@ public class Pacman extends JLabel {
 
     public void changeDirection(String direction) {
         if (direction.equals("left")) {
-            imageIcon = new ImageIcon("images/PacmanLeft.gif");
+            imageIcon = new ImageIcon(getClass().getResource("/images/PacmanLeft.gif"));
             setIcon(imageIcon);
 
         } else if (direction.equals("right")) {
-            imageIcon = new ImageIcon("images/Pacman.gif");
+            imageIcon = new ImageIcon(getClass().getResource("/images/Pacman.gif"));
             setIcon(imageIcon);
 
         } else if (direction.equals("up")) {
-            imageIcon = new ImageIcon("images/PacmanUp.gif");
+            imageIcon = new ImageIcon(getClass().getResource("/images/PacmanUp.gif"));
             setIcon(imageIcon);
 
         } else if (direction.equals("down")) {
-            imageIcon = new ImageIcon("images/PacmanDown.gif");
+            imageIcon = new ImageIcon(getClass().getResource("/images/PacmanDown.gif"));
             setIcon(imageIcon);
 
         }
@@ -136,12 +137,12 @@ public class Pacman extends JLabel {
         this.currentPos = currentPos;
     }
 
-    public ArrayList<int[]> getEatenfoods() {
-        return eatenfoods;
+    public ArrayList<int[]> getEatenFoods() {
+        return eatenFoods;
     }
 
-    public void setEatenfoods(ArrayList<int[]> eatenfoods) {
-        eatenfoods = eatenfoods;
+    public void setEatenFoods(ArrayList<int[]> foods) {
+        eatenFoods = foods;
     }
      public int getLives() {
         return lives;

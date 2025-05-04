@@ -1,3 +1,4 @@
+package com.firomsa;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,7 +19,7 @@ public class Game extends JFrame implements KeyListener {
         foods = new ArrayList<Food>();
         //the pacman object
         pacman = new Pacman(this);
-        score = new JLabel(pacman.getEatenfoods().size()+""); 
+        score = new JLabel(pacman.getEatenFoods().size()+""); 
         score.setBounds(500,20,40,20);
         score.setForeground(Color.YELLOW);
         add(score);
@@ -36,7 +37,7 @@ public class Game extends JFrame implements KeyListener {
         lifes.setForeground(Color.YELLOW);
         add(lifes);
         for(int i = 0; i < pacman.getLives();i++){
-            JLabel life = new JLabel(new ImageIcon("images/lifes.png"));
+            JLabel life = new JLabel(new ImageIcon(getClass().getResource("/images/lifes.png")));
             life.setBounds(i*30+40,20,20,20);
             add(life);
         }
@@ -61,7 +62,7 @@ public class Game extends JFrame implements KeyListener {
             for (int j = 0; j < 27; j++) {
                 if (Map.Map[i][j] == 2 && !(((i == 23) && (j == 13 || j == 14)) || ((i == 13 || i == 14 || i == 15)
                         && (j == 11 || j == 12 || j == 13 || j == 14 || j == 15 || j == 16)))) {
-                    if(!contain(new int[]{i,j},pacman.getEatenfoods()))
+                    if(!contain(new int[]{i,j},pacman.getEatenFoods()))
                     {foods.add(new Food(new int[]{i,j}));}
                 }
             }
@@ -137,7 +138,7 @@ public class Game extends JFrame implements KeyListener {
         } else if(selectedOption==0){
             this.dispose();
             isAlive = true;
-            pacman.getEatenfoods().clear();
+            pacman.getEatenFoods().clear();
             pacman.resetLives();
             new Game();
         }
