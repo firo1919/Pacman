@@ -1,3 +1,4 @@
+package com.firomsa;
 import java.awt.Color;
 import javax.swing.JLabel;
 

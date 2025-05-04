@@ -1,3 +1,4 @@
+package com.firomsa;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -136,7 +137,7 @@ class Blinky extends Ghosts {
         int[] pos = { 29, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.imageIcon = new ImageIcon("images/blinky.gif");
+        super.imageIcon = super.imageIcon = new ImageIcon(getClass().getResource("/images/blinky.gif"));
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
     }
@@ -150,7 +151,7 @@ class Clyde extends Ghosts {
         int[] pos = { 29, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.imageIcon = new ImageIcon("images/clyde.gif");
+        super.imageIcon = super.imageIcon = new ImageIcon(getClass().getResource("/images/clyde.gif"));
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
     }
@@ -164,7 +165,7 @@ class Inky extends Ghosts {
         int[] pos = { 1, 26 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.imageIcon = new ImageIcon("images/inky.gif");
+        super.imageIcon = super.imageIcon = new ImageIcon(getClass().getResource("/images/inky.gif"));
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
     }
@@ -178,7 +179,7 @@ class Pinky extends Ghosts {
         int[] pos = { 1, 1 };
         super.startPos = pos.clone();
         super.currentPos = pos.clone();
-        super.imageIcon = new ImageIcon("images/pinky.gif");
+        super.imageIcon = super.imageIcon = new ImageIcon(getClass().getResource("/images/pinky.gif"));
         setIcon(imageIcon);
         setBounds(startPos[1] * 20 - 9, startPos[0] * 20 + 60 - 9, 38, 38);
     }
